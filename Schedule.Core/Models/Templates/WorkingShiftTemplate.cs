@@ -1,4 +1,5 @@
 using CSharpFunctionalExtensions;
+using Schedule.Core.Models.Common;
 
 namespace Schedule.Core.Models.Templates;
 

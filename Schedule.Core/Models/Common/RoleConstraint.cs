@@ -1,6 +1,6 @@
 using CSharpFunctionalExtensions;
 
-namespace Schedule.Core.Models.Templates;
+namespace Schedule.Core.Models.Common;
 
 public class RoleConstraint : ValueObject
 {
