@@ -1,4 +1,5 @@
 using CSharpFunctionalExtensions;
+using Schedule.Core.Models.Schedules;
 
 namespace Schedule.Core.Models.Templates;
 
@@ -55,9 +56,31 @@ public class WeeklyScheduleTemplate
         return Result.Success();
     }
 
-    public Result TryCreateSchedule(DateOnly weekStartDate)
+    public Result<WeeklySchedule> TryCreateSchedule(DateOnly weekStartDate)
     {
-        throw new NotImplementedException();
+        var workingShifts = new List<WorkingShift>();
+
+        if (weekStartDate.DayOfWeek is not DayOfWeek.Monday)
+            return Result.Failure<WeeklySchedule>("WeekStartDate must be Monday");
+        
+        foreach (var shiftTemplate in _workingShiftTemplates)
+        {
+            var shiftStartDay = new DateTime(weekStartDate, TimeOnly.MinValue) 
+                                 + TimeSpan.FromDays((int)shiftTemplate.Day);
+
+            var shiftStart = new DateTime(shiftStartDay.Year, shiftStartDay.Month, shiftStartDay.Day,
+                shiftTemplate.StartTime.Hour, shiftTemplate.StartTime.Minute, shiftTemplate.StartTime.Microsecond);
+            var shiftEnd = shiftStart + shiftTemplate.Duration;
+            
+            var workingShiftResult = WorkingShift.Create(shiftStart, shiftEnd, shiftTemplate.RoleConstraint);
+
+            if (workingShiftResult.IsFailure)
+                return Result.Failure<WeeklySchedule>(workingShiftResult.Error);
+            
+            workingShifts.Add(workingShiftResult.Value);
+        }
+
+        return WeeklySchedule.Create(weekStartDate, WorkPoint, workingShifts);
     }
 
     public void Enable()
@@ -69,6 +92,4 @@ public class WeeklyScheduleTemplate
     {
         IsEnabled = false;
     }
-    
-    
 }

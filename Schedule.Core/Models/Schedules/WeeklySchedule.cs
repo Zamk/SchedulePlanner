@@ -22,6 +22,9 @@ public class WeeklySchedule
 
     public static Result<WeeklySchedule> Create(DateOnly weekStartDate, WorkPoint workPoint, IEnumerable<WorkingShift> workingShifts)
     {
+        if (weekStartDate.DayOfWeek is not DayOfWeek.Monday)
+            return Result.Failure<WeeklySchedule>("WeekStartDate must be Monday");
+        
         return Result.Success(new WeeklySchedule(weekStartDate, workPoint, workingShifts));
     }
 }

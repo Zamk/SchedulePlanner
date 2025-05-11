@@ -8,25 +8,22 @@ public class WorkingShiftTemplate
     public long Id { get; }
     public DayOfWeek Day { get; }
     public TimeOnly StartTime { get; }
-    public TimeOnly EndTime { get; }
+    public TimeSpan Duration { get; }
     public RoleConstraint RoleConstraint { get; }
     
     private WorkingShiftTemplate() {}
 
-    private WorkingShiftTemplate(DayOfWeek day, TimeOnly startTime, TimeOnly endTime, RoleConstraint roleConstraint)
+    private WorkingShiftTemplate(DayOfWeek day, TimeOnly startTime, TimeSpan duration, RoleConstraint roleConstraint)
     {
         Day = day;
         StartTime = startTime;
-        EndTime = endTime;
+        Duration = duration;
         RoleConstraint = roleConstraint;
     }
 
-    public static Result<WorkingShiftTemplate> Create(DayOfWeek day, TimeOnly startTime, TimeOnly endTime, RoleConstraint roleConstraint)
+    public static Result<WorkingShiftTemplate> Create(DayOfWeek day, TimeOnly startTime, TimeSpan duration, RoleConstraint roleConstraint)
     {
-        if (startTime >= endTime)
-            return Result.Failure<WorkingShiftTemplate>("StartTime must be less than EndTime");
-        
-        var workingShiftTemplate = new WorkingShiftTemplate(day, startTime, endTime, roleConstraint);
+        var workingShiftTemplate = new WorkingShiftTemplate(day, startTime, duration, roleConstraint);
 
         return Result.Success(workingShiftTemplate);
     }
