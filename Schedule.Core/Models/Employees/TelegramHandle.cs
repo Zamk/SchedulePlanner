@@ -1,6 +1,6 @@
 using CSharpFunctionalExtensions;
 
-namespace Schedule.Core.Models;
+namespace Schedule.Core.Models.Employees;
 
 public class TelegramHandle : ValueObject
 {

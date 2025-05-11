@@ -1,7 +1,8 @@
-namespace Schedule.Core.Models;
+namespace Schedule.Core.Models.Employees;
 
 public enum UnavailabilityReason
 {
+    DayOff,
     Vacation,
     Illness,
     Other,

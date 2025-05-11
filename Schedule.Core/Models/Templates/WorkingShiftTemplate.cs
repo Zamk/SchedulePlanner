@@ -1,4 +1,4 @@
-namespace Schedule.Core.Models;
+namespace Schedule.Core.Models.Templates;
 
 public class WorkingShiftTemplate
 {
