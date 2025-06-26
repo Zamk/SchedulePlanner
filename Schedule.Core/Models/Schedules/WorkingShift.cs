@@ -13,6 +13,8 @@ public class WorkingShift
     public RoleConstraint RoleConstraint { get; }
     public IReadOnlyCollection<RegisteredEmployee> RegisteredEmployees => _registeredEmployees.AsReadOnly();
 
+    public bool IsRegistrationAvailable => RoleConstraint.RequiredCount > _registeredEmployees.Count;
+    
     private WorkingShift() {}
 
     private WorkingShift(DateTime startDateTime, DateTime endDateTime, RoleConstraint roleConstraint)

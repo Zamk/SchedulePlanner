@@ -27,4 +27,12 @@ public class WeeklySchedule
         
         return Result.Success(new WeeklySchedule(weekStartDate, workPoint, workingShifts));
     }
+
+    public IReadOnlyCollection<WorkingShift> GetAvailableShifts()
+    {
+        return _workingShifts
+            .Where(ws => ws.IsRegistrationAvailable)
+            .ToList()
+            .AsReadOnly();
+    }
 }
