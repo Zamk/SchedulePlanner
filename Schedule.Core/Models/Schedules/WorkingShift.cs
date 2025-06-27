@@ -44,6 +44,9 @@ public class WorkingShift
         if (_registeredEmployees.Any(e => e.EmployeeId == employee.Id))
             return Result.Failure("Employee already registered on this shift");
         
+        if (RoleConstraint.RequiredRoleId != role.Id)
+            return Result.Failure("Employee does not have the required role for this work shift.");
+        
         var registration = RegisteredEmployee.Create(employee.Id, role.Id);
         
         if (registration.IsFailure)
